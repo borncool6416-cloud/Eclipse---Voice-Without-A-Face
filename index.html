@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECLIPSE - Voice Without A Face</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;500&family=Cairo:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Global Reset & Basics --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #060606;
+            --gold: #d4af37;
+            --gold-muted: #b8972e;
+            --text-light: #e2e2e2;
+            --text-muted: #a0a0a0;
+            --border-color: rgba(212, 175, 55, 0.15);
+            --ease-lux: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- Semi-Transparent Fixed Background Texture --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://ik.imagekit.io/aqdurahgv/background.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- Typography Defaults --- */
+        .brand-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            color: #ffffff;
+            letter-spacing: 4px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .brand-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--gold);
+            letter-spacing: 6px;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        /* --- Structural Sections --- */
+        .hero-logo-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            position: relative;
+        }
+
+        .hero-logo-img {
+            max-width: 60%;
+            max-height: 60vh;
+            object-fit: contain;
+            animation: breathe 4s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(0.97) translateY(var(--parallax, 0px)); opacity: 0.8; }
+            100% { transform: scale(1.03) translateY(var(--parallax, 0px)); opacity: 1; }
+        }
+
+        .slide-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 40px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .alternate-layout .container {
+            flex-direction: row-reverse;
+        }
+
+        /* --- Media Containers --- */
+        .media-box {
+            flex: 1.1;
+            height: 75vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            transition: box-shadow 0.6s var(--ease-lux), border-color 0.6s var(--ease-lux), transform 0.6s var(--ease-lux);
+        }
+
+        .media-box:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(212, 175, 55, 0.08);
+        }
+
+        .contain-media {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* --- Text and Content Columns --- */
+        .text-box {
+            flex: 0.9;
+        }
+
+        .section-meta {
+            font-size: 0.8rem;
+            color: var(--gold-muted);
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .bilingual-content {
+            display: flex;
+            gap: 40px;
+            margin-top: 35px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 35px;
+        }
+
+        .lang-en, .lang-ar {
+            flex: 1;
+        }
+
+        .lang-label {
+            font-size: 0.75rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .lang-en p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        .lang-ar {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .lang-ar p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .vertical-divider {
+            width: 1px;
+            background-color: var(--border-color);
+            align-self: stretch;
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 1s var(--ease-lux) 0.4s;
+        }
+
+        /* --- Standalone Final Video Section --- */
+        .standalone-media-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 40px;
+        }
+
+        .media-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            transition: box-shadow 0.6s var(--ease-lux), border-color 0.6s var(--ease-lux);
+        }
+
+        .media-wrapper:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 40px rgba(212, 175, 55, 0.1);
+        }
+
+        .standalone-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* --- Floating Audio Buttons (shared base) --- */
+        .audio-btn {
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s var(--ease-lux);
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold);
+        }
+
+        .audio-btn svg {
+            width: 45%;
+            height: 45%;
+        }
+
+        .audio-btn:hover {
+            background: rgba(212, 175, 55, 0.4);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .audio-btn.is-muted {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+        }
+
+        .audio-btn.is-muted:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* --- Page soundtrack toggle (global, bottom-right, default ON) --- */
+        #soundtrack-toggle {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            z-index: 1000;
+        }
+
+        #soundtrack-toggle::after {
+            content: "SOUND";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #soundtrack-toggle:hover::after {
+            opacity: 1;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1px solid var(--gold);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #soundtrack-toggle:not(.is-muted) .pulse-ring {
+            animation: pulse-out 2.8s ease-out infinite;
+        }
+
+        @keyframes pulse-out {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        /* --- Video-local sound toggle (small, floats at video corner, default OFF) --- */
+        .video-sound-toggle {
+            position: absolute;
+            bottom: 28px;
+            right: 28px;
+            width: 42px;
+            height: 42px;
+            z-index: 10;
+        }
+
+        @media (max-width: 1024px) {
+            .video-sound-toggle {
+                bottom: 16px;
+                right: 16px;
+                width: 38px;
+                height: 38px;
+            }
+        }
+
+        /* --- Scroll Reveal Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s var(--ease-lux), transform 1s var(--ease-lux);
+        }
+
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-media {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            transition: opacity 1.1s var(--ease-lux), transform 1.1s var(--ease-lux);
+        }
+
+        .reveal-media.in-view {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .text-box.reveal .section-meta,
+        .text-box.reveal .brand-title,
+        .text-box.reveal .brand-subtitle,
+        .text-box.reveal .bilingual-content {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.8s var(--ease-lux), transform 0.8s var(--ease-lux);
+        }
+
+        .text-box.reveal.in-view .section-meta { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
+        .text-box.reveal.in-view .brand-title { transition-delay: 0.15s; opacity: 1; transform: translateY(0); }
+        .text-box.reveal.in-view .brand-subtitle { transition-delay: 0.25s; opacity: 1; transform: translateY(0); }
+        .text-box.reveal.in-view .bilingual-content { transition-delay: 0.35s; opacity: 1; transform: translateY(0); }
+        .text-box.reveal.in-view .vertical-divider { transform: scaleY(1); }
+
+        .hero-logo-img.reveal-hero {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 1.4s var(--ease-lux), transform 1.4s var(--ease-lux);
+        }
+
+        .hero-logo-img.reveal-hero.in-view {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- Smooth crossfade loop for the intro video --- */
+        #loop-video {
+            transition: opacity 0.9s ease;
+        }
+
+        /* --- Responsive Layout (Mobile Fixes) --- */
+        @media (max-width: 1024px) {
+            .container, .alternate-layout .container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .media-box, .text-box {
+                width: 100%;
+                flex: none;
+            }
+            .media-box {
+                height: 40vh;
+            }
+            .brand-title {
+                font-size: 2.2rem;
+            }
+            .brand-subtitle {
+                font-size: 0.9rem;
+                letter-spacing: 4px;
+            }
+            .bilingual-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .vertical-divider {
+                width: 100%;
+                height: 1px;
+                transform: scaleX(0);
+                transform-origin: left;
+            }
+            .text-box.reveal.in-view .vertical-divider {
+                transform: scaleX(1);
+            }
+            .media-wrapper {
+                height: 40vh;
+            }
+            #soundtrack-toggle {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* --- Respect reduced motion preference --- */
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .hero-logo-img { animation: none; }
+            .reveal, .reveal-media, .hero-logo-img.reveal-hero,
+            .text-box.reveal .section-meta, .text-box.reveal .brand-title,
+            .text-box.reveal .brand-subtitle, .text-box.reveal .bilingual-content,
+            .vertical-divider, .pulse-ring {
+                opacity: 1 !important;
+                transform: none !important;
+                animation: none !important;
+                transition: none !important;
+            }
+            #loop-video {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-logo-section" id="hero">
+        <img src="https://ik.imagekit.io/aqdurahgv/image-removebg-preview%20(7).png" alt="Eclipse Logo" class="hero-logo-img reveal-hero" id="hero-img">
+    </section>
+
+    <section class="slide-section" id="slide1">
+        <div class="container">
+            <div class="media-box reveal-media">
+                <video autoplay loop muted playsinline class="contain-media" id="loop-video">
+                    <source src="https://ik.imagekit.io/aqdurahgv/Jeweled_Mask_Designs_A_bejeweled_mask_with_a_crescent_moon_and_star_3_E54apD.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="text-box reveal">
+                <div class="section-meta">01 / 04 &nbsp;&nbsp;&middot;&nbsp;&nbsp; BRAND IDENTITY</div>
+                <h1 class="brand-title">ECLIPSE</h1>
+                <h2 class="brand-subtitle">VOICE WITHOUT A FACE</h2>
+
+                <div class="bilingual-content">
+                    <div class="lang-en">
+                        <div class="lang-label">EN &nbsp;&middot;&nbsp; INTRODUCTION</div>
+                        <p>"Introducing ECLIPSE – A Voice Without a Face. A mysterious artistic identity that redefines a performer's presence on and off stage through total privacy and absolute elegance."</p>
+                    </div>
+
+                    <div class="vertical-divider"></div>
+
+                    <div class="lang-ar" dir="rtl">
+                        <div class="lang-label">مقدمة الهوية &nbsp;&middot;&nbsp; AR</div>
+                        <p>"نقدم لكم ECLIPSE – صوت بلا وجه. هوية فنية غامضة تعيد تعريف حضور الفنان على المسرح وخارجه من خلال الخصوصية الكاملة والأناقة المطلقة."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide-section alternate-layout" id="slide2">
+        <div class="container">
+            <div class="media-box reveal-media">
+                <img src="https://ik.imagekit.io/aqdurahgv/ChatGPT%20Image%20Jul%202,%202026,%2001_06_52%20AM.png?updatedAt=1782974308447" alt="The Signature Mask" class="contain-media">
+            </div>
+
+            <div class="text-box reveal">
+                <div class="section-meta">02 / 04 &nbsp;&nbsp;&middot;&nbsp;&nbsp; THE BRAND MARK</div>
+                <h1 class="brand-title">THE SIGNATURE MASK</h1>
+                <h2 class="brand-subtitle">THE ICONIC DESIGN</h2>
+
+                <div class="bilingual-content">
+                    <div class="lang-en">
+                        <div class="lang-label">EN &nbsp;&middot;&nbsp; SPECIFICATIONS</div>
+                        <p>"The final mask design features dense, heavy crystal layers to completely conceal facial features. Positioned on the forehead, the signature gold crescent moon and star serve as the brand's iconic hallmark."</p>
+                    </div>
+
+                    <div class="vertical-divider"></div>
+
+                    <div class="lang-ar" dir="rtl">
+                        <div class="lang-label">القناع الأيقوني &nbsp;&middot;&nbsp; AR</div>
+                        <p>"التصميم النهائي للقناع يعتمد على طبقات كريستالية مكثفة لحجب ملامح الوجه تماماً. يتوسط جبهته هلال ذهبي ونجمة ليكون العلامة التجارية المميزة والأيقونية."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide-section" id="slide3">
+        <div class="container">
+            <div class="media-box reveal-media">
+                <img src="https://ik.imagekit.io/aqdurahgv/Design%20sans%20titre.png" alt="Stage & Motion" class="contain-media">
+            </div>
+
+            <div class="text-box reveal">
+                <div class="section-meta">03 / 04 &nbsp;&nbsp;&middot;&nbsp;&nbsp; VISUAL INTERACTION</div>
+                <h1 class="brand-title">STAGE & MOTION</h1>
+                <h2 class="brand-subtitle">DYNAMIC REFLECTIONS</h2>
+
+                <div class="bilingual-content">
+                    <div class="lang-en">
+                        <div class="lang-label">EN &nbsp;&middot;&nbsp; PERFORMANCE</div>
+                        <p>"The mask is engineered to interact seamlessly with stage lighting. The crystal reflections create a sense of continuous motion and high dynamism, even when the performer is completely static."</p>
+                    </div>
+
+                    <div class="vertical-divider"></div>
+
+                    <div class="lang-ar" dir="rtl">
+                        <div class="lang-label">الأداء المسرحي والتفاعل &nbsp;&middot;&nbsp; AR</div>
+                        <p>"الماسك مصمم ليتفاعل بشكل ساحر مع إضاءة المسرح؛ حيث تمنح انعكاسات الكريستال شعوراً بالحركة المستمرة والديناميكية الفائقة حتى أثناء ثبات الفنان."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide-section alternate-layout" id="slide4">
+        <div class="container">
+            <div class="media-box reveal-media">
+                <img src="https://ik.imagekit.io/aqdurahgv/ChatGPT%20Image%20Jul%202,%202026,%2001_28_31%20AM.png?updatedAt=1782974305366" alt="Same Mask, Different Moments" class="contain-media">
+            </div>
+
+            <div class="text-box reveal">
+                <div class="section-meta">04 / 04 &nbsp;&nbsp;&middot;&nbsp;&nbsp; STYLING GUIDE</div>
+                <h1 class="brand-title">SAME MASK</h1>
+                <h2 class="brand-subtitle">DIFFERENT MOMENTS</h2>
+
+                <div class="bilingual-content">
+                    <div class="lang-en">
+                        <div class="lang-label">EN &nbsp;&middot;&nbsp; VERSATILITY</div>
+                        <p>"One mask, endless moments. This guide demonstrates the design's versatility across 6 distinct looks: from casual studio interviews to luxurious red-carpet gowns."</p>
+                    </div>
+
+                    <div class="vertical-divider"></div>
+
+                    <div class="lang-ar" dir="rtl">
+                        <div class="lang-label">دليل الستايلات الستة &nbsp;&middot;&nbsp; AR</div>
+                        <p>"قناع واحد.. ومواقف لا حصر لها. يستعرض هذا الدليل مرونة التصميم في التكيف مع 6 إطلالات مختلفة: من المقابلات اليومية الكاجوال، وحتى فساتين السجادة الحمراء الفاخرة."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="standalone-media-section" id="slide5">
+        <div class="media-wrapper reveal-media">
+            <video autoplay loop muted playsinline class="standalone-video" id="final-video">
+                <source src="https://ik.imagekit.io/aqdurahgv/Final%20.mp4" type="video/mp4">
+            </video>
+
+            <!-- Local sound toggle for THIS video only — default OFF (muted) -->
+            <button class="audio-btn video-sound-toggle is-muted" id="video-sound-toggle" aria-label="Toggle video sound" aria-pressed="false">
+                <svg id="video-sound-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="4,9 8,9 12,5 12,19 8,15 4,15" fill="currentColor" stroke="none"></polygon>
+                    <line x1="16" y1="9" x2="22" y2="15"></line>
+                    <line x1="22" y1="9" x2="16" y2="15"></line>
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <audio id="bg-music" loop>
+        <source src="https://ik.imagekit.io/aqdurahgv/mystic-downtempo-psychedelic-ambient-trip-hop-resonanz-resonanz-beats_Xh211MDc%20(1).mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Global page soundtrack toggle — default ON -->
+    <button id="soundtrack-toggle" class="audio-btn" aria-label="Toggle background music" aria-pressed="true">
+        <span class="pulse-ring"></span>
+        <svg id="soundtrack-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="4,9 8,9 12,5 12,19 8,15 4,15" fill="currentColor" stroke="none"></polygon>
+            <path d="M16 8a5 5 0 0 1 0 8"></path>
+            <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
+        </svg>
+    </button>
+
+    <script>
+        /* ---------- Icon templates ---------- */
+        const ICON_ON = `
+            <polygon points="4,9 8,9 12,5 12,19 8,15 4,15" fill="currentColor" stroke="none"></polygon>
+            <path d="M16 8a5 5 0 0 1 0 8"></path>
+            <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>`;
+        const ICON_OFF = `
+            <polygon points="4,9 8,9 12,5 12,19 8,15 4,15" fill="currentColor" stroke="none"></polygon>
+            <line x1="16" y1="9" x2="22" y2="15"></line>
+            <line x1="22" y1="9" x2="16" y2="15"></line>`;
+
+        /* ---------- Global page soundtrack — default ON ---------- */
+        const bgMusic = document.getElementById('bg-music');
+        bgMusic.volume = 0.5;  // ← page soundtrack volume, range 0.0 to 0.5
+        const soundtrackToggle = document.getElementById('soundtrack-toggle');
+        const soundtrackIcon = document.getElementById('soundtrack-icon');
+        let musicOn = true;
+
+        function setSoundtrackUI(on) {
+            soundtrackIcon.innerHTML = on ? ICON_ON : ICON_OFF;
+            soundtrackToggle.classList.toggle('is-muted', !on);
+            soundtrackToggle.setAttribute('aria-pressed', String(on));
+        }
+
+        const musicPlayPromise = bgMusic.play();
+        if (musicPlayPromise !== undefined) {
+            musicPlayPromise.then(() => {
+                musicOn = true;
+                setSoundtrackUI(true);
+            }).catch(() => {
+                // Autoplay with sound blocked by browser until user interacts
+                musicOn = false;
+                setSoundtrackUI(false);
+            });
+        }
+
+        soundtrackToggle.addEventListener('click', () => {
+            musicOn = !musicOn;
+            if (musicOn) {
+                bgMusic.play();
+            } else {
+                bgMusic.pause();
+            }
+            setSoundtrackUI(musicOn);
+        });
+
+        /* ---------- Final video local sound — default OFF ---------- */
+        const finalVideo = document.getElementById('final-video');
+        const videoSoundToggle = document.getElementById('video-sound-toggle');
+        const videoSoundIcon = document.getElementById('video-sound-icon');
+        let videoSoundOn = false;
+
+        function setVideoSoundUI(on) {
+            videoSoundIcon.innerHTML = on ? ICON_ON : ICON_OFF;
+            videoSoundToggle.classList.toggle('is-muted', !on);
+            videoSoundToggle.setAttribute('aria-pressed', String(on));
+        }
+
+        videoSoundToggle.addEventListener('click', () => {
+            videoSoundOn = !videoSoundOn;
+            finalVideo.muted = !videoSoundOn;
+            if (videoSoundOn) {
+                // Unmuting requires the video to actually be playing
+                finalVideo.play().catch(() => {});
+            }
+            setVideoSoundUI(videoSoundOn);
+        });
+
+        /* ---------- Premium scroll-reveal animations ---------- */
+        const revealTargets = document.querySelectorAll('.reveal, .reveal-media, .reveal-hero');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2, rootMargin: '0px 0px -80px 0px' });
+
+        revealTargets.forEach(el => revealObserver.observe(el));
+
+        /* ---------- Subtle hero parallax on scroll ---------- */
+        const heroImg = document.getElementById('hero-img');
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const offset = Math.min(window.scrollY * 0.15, 80);
+                    heroImg.style.setProperty('--parallax', `${offset}px`);
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        /* ---------- Smooth crossfade loop for the Section 1 intro video ---------- */
+        // Native looping videos "cut" abruptly. This fades opacity down near the
+        // end of the clip and back up right after the loop restarts, so the seam
+        // reads as a soft crossfade instead of a hard jump.
+        const loopVideo = document.getElementById('loop-video');
+        if (loopVideo) {
+            const FADE_WINDOW = 0.8; // seconds of fade at each end of the clip
+
+            loopVideo.addEventListener('timeupdate', () => {
+                const duration = loopVideo.duration;
+                if (!duration || isNaN(duration)) return;
+
+                const timeLeft = duration - loopVideo.currentTime;
+                const timeIn = loopVideo.currentTime;
+
+                if (timeLeft < FADE_WINDOW) {
+                    // Approaching the loop point — fade out
+                    loopVideo.style.opacity = Math.max(timeLeft / FADE_WINDOW, 0);
+                } else if (timeIn < FADE_WINDOW) {
+                    // Just after the loop restarted — fade back in
+                    loopVideo.style.opacity = Math.min(timeIn / FADE_WINDOW, 1);
+                } else {
+                    loopVideo.style.opacity = 1;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
